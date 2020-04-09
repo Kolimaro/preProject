@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-
+//something changed
     private Connection connection;
 
     public UserDAO() {
