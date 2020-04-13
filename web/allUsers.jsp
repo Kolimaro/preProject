@@ -19,24 +19,33 @@
         <th>id</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
     </tr>
     <c:forEach items="${usersFromDB}" var="user">
         <tr>
             <td>${user.id}</td>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
+            <td>${user.login}</td>
+            <td>${user.password}</td>
+            <td>${user.role}</td>
             <td>
-                <form action="/update" method="get">
+                <form action="/admin/update" method="get">
                     <button type="submit" name="id" value="${user.id}">Update</button>
                 </form>
             </td>
             <td>
-                <form action="/delete" method="post">
+                <form action="/admin/delete" method="post">
                     <button type="submit" name="id" value="${user.id}">Delete</button>
                 </form>
             </td>
         </tr>
     </c:forEach>
 </table>
+<form action="/admin/add" method="get">
+    <button type="submit">Add new user</button>
+</form>
 </body>
 </html>

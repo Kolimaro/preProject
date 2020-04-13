@@ -18,15 +18,21 @@
         <th>id</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Role</th>
     </tr>
 
     <% long id = Long.parseLong(request.getParameter("id"));%>
     <tr>
-        <form action="/update" method="post">
+        <form action="/admin/update" method="post">
             <td><%= id%></td>
             <input required type="hidden" name="id" value="<%= id%>">
             <td><input required type="text" name="firstname" placeholder="new name"></td>
             <td><input required type="text" name="lastname" placeholder="new last name"></td>
+            <td><input required type="text" name="login" placeholder="new login"></td>
+            <td><input required type="text" name="password" placeholder="new password"></td>
+            <td><input required type="text" name="role" placeholder="new role"></td>
             <td><button type="submit">Update</button></td>
         </form>
     </tr>

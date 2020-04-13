@@ -1,67 +1,55 @@
 package service;
 
 import dao.UserDAO;
-import exception.DBException;
+import dao.UserDaoFactory;
 import model.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-
+    private static UserService userService;
     private UserDAO dao;
 
-    public UserService() {
-        dao = new UserDAO();
+    private UserService() {
+        dao = UserDaoFactory.getInstance().getUserDAO();
     }
 
-    public List<User> getAllUsers() throws DBException {
-        List<User> userList;
-        try {
-            userList = dao.getAllUsers();
-        } catch (SQLException e) {
-            throw new DBException(e);
+    public static UserService getInstance() {
+        if (userService == null) {
+            userService = new UserService();
         }
-        return userList;
+        return userService;
     }
 
-    public void addUser(String firstName, String lastName) throws DBException {
-        try {
-            dao.addUser(new User(firstName, lastName));
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
+    public List<User> getAllUsers() {
+        return dao.getAllUsers();
     }
 
-    public void editUser(User user) throws DBException {
-        try {
-            dao.editUser(user);
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
+    public User getUserById(long id) {
+        return dao.getUserById(id);
     }
 
-    public void deleteUser(Long id) throws DBException {
-        try {
-            dao.deleteUser(id);
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
+    public User getUserByLogin(String login) {
+        return dao.getUserByLogin(login);
     }
 
-    public void createTable() throws DBException {
-        try {
-            dao.createTable();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
+    public void addUser(String firstName, String lastName, String login, String password, String role) {
+        dao.addUser(new User(firstName, lastName, login, password, role));
     }
 
-    public void dropTable() throws DBException {
-        try {
-            dao.dropTable();
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
+    public void editUser(User user) {
+        dao.editUser(user);
+    }
+
+    public void deleteUser(Long id) {
+        dao.deleteUser(dao.getUserById(id));
+    }
+
+    public void createTable() {
+        dao.createTable();
+    }
+
+    public void dropTable() {
+        dao.dropTable();
     }
 }
