@@ -21,7 +21,6 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("id") == null) {
-            String url = req.getContextPath();
             resp.sendRedirect(req.getContextPath());
         } else {
             filterChain.doFilter(req, resp);
