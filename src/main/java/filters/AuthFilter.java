@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter("/user")
 public class AuthFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,10 +21,12 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("id") == null) {
-            req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
+            String url = req.getContextPath();
+            resp.sendRedirect(req.getContextPath());
+        } else {
+            filterChain.doFilter(req, resp);
         }
 
-        filterChain.doFilter(req, resp);
     }
 
     @Override

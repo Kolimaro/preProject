@@ -24,16 +24,17 @@ public class AdminFilter implements Filter {
 
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("id") == null) {
-            req.getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
-        }
-        UserService userService = UserService.getInstance();
-        User user = userService.getUserById((Long) session.getAttribute("id"));
-        if (user.getRole().equals("admin")) {
-            filterChain.doFilter(req, resp);
+            resp.sendRedirect(req.getContextPath());
         } else {
-            req.setAttribute("user", user);
-            req.getServletContext().getRequestDispatcher("/user.jsp").forward(req, resp);
+            UserService userService = UserService.getInstance();
+            User user = userService.getUserById((Long) session.getAttribute("id"));
+            if (user.getRole().equals("admin")) {
+                filterChain.doFilter(req, resp);
+            } else {
+                resp.sendRedirect(req.getContextPath() + "/user");
+            }
         }
+
 
     }
 
